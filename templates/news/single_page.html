@@ -1,0 +1,40 @@
+{% extends 'news/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Biz haqimizda" %}{% endblock title %}
+
+{% block content %}
+<section class="container about-container">
+  <div class="section-header">
+    <h2 class="section-title">{% trans "Biz haqimizda" %}</h2>
+  </div>
+
+  <div class="card about-hero">
+    <div class="row" style="align-items:center;">
+      <div class="col-sm-6">
+        <h3 style="margin-top:0;">{% trans "Ishonchli va tezkor yangiliklar" %}</h3>
+        <p class="text-muted">{% trans "Platformamiz mahalliy, xorij, sport va texnologiya yo'nalishlarida eng muhim xabarlarni sodda va qulay ko'rinishda taqdim etadi. Maqsadimiz — foydalanuvchilarga ishonchli manbalardan olingan, tekshirilgan kontentni yetkazish." %}</p>
+        <ul style="padding-left:18px; margin: 0;">
+          <li>{% trans "Tekshirilgan manbalar va faktlar" %}</li>
+          <li>{% trans "Quvvatli qidiruv va bo'limlar" %}</li>
+          <li>{% trans "Yengil, mobilga mos dizayn" %}</li>
+        </ul>
+        <div style="margin-top: 10px;">
+          <a href="{% url 'contact_page' %}" class="btn btn-primary">{% trans "Biz bilan aloqa" %}</a>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <img src="{% static 'images/slider_img4.jpg' %}" alt="About" style="width:100%; border-radius:10px; box-shadow: var(--card-shadow); object-fit:cover;">
+      </div>
+    </div>
+  </div>
+
+  <div class="row features-grid">
+    <div class="col-sm-4"><div class="card feature-card"><h4>{% trans "Missiya" %}</h4><p class="text-muted">{% trans "Axborotni haqqoniy, xolis va tezkor yetkazish." %}</p></div></div>
+    <div class="col-sm-4"><div class="card feature-card"><h4>{% trans "Qiymatlar" %}</h4><p class="text-muted">{% trans "Shaffoflik, ishonchlilik va foydalanuvchi ishonchi." %}</p></div></div>
+    <div class="col-sm-4"><div class="card feature-card"><h4>{% trans "Nimalar qilamiz" %}</h4><p class="text-muted">{% trans "Kunlik yangiliklar, tahlillar va mavzuli saralashlar." %}</p></div></div>
+  </div>
+      
+</section>
+{% endblock content %}

@@ -1,0 +1,22 @@
+{% extends "news/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %} {% trans "Ro'yxatdan o'tish yakunlandi" %} {% endblock title %}
+
+{% block content %}
+<section class="container auth-container">
+  <div class="section-header">
+    <h2 class="section-title">{% trans "Muvaffaqiyatli ro'yxatdan o'tdingiz" %}</h2>
+  </div>
+  <div class="card auth-card" style="text-align:center;">
+    <p style="font-size:18px;">
+      {{ new_user.first_name }}{% if not new_user.first_name %}{% trans "Foydalanuvchi" %}{% endif %}, {% trans "tabriklaymiz! Akkauntingiz yaratildi." %}
+    </p>
+    <p>
+      {% trans "Kirish uchun" %} <a href="{% url 'login' %}">{% trans "login" %}</a> {% trans "sahifasiga o'ting." %}
+    </p>
+  </div>
+  
+</section>
+{% endblock content %}

@@ -1,0 +1,54 @@
+{% extends 'news/base.html' %}
+{% load static %}
+
+
+{% load i18n %}
+
+{% block content %}
+  <section class="container contact-container">
+    <div class="section-header">
+      <h2 class="section-title">{% trans "Biz bilan aloqa" %}</h2>
+    </div>
+    <div class="row">
+      <div class="col-lg-8 col-md-8 col-sm-12">
+        <div class="card contact-card">
+          <p class="text-muted" style="margin-bottom: 12px;">{% trans "Savol va takliflaringizni yuboring. Iloji boricha tez javob beramiz." %}</p>
+          <form method="post" class="contact_form" novalidate>
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="contact_name">{% trans "Ism" %}</label>
+                  <input id="contact_name" class="form-control" type="text" name="name" placeholder="{% trans 'Ismingiz' %}" required>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="contact_email">Email</label>
+                  <input id="contact_email" class="form-control" type="email" name="email" placeholder="email@example.com" required>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="contact_message">{% trans "Xabar" %}</label>
+              <textarea id="contact_message" class="form-control" name="message" rows="6" placeholder="{% trans 'Xabaringizni yozing' %}" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">{% trans "Yuborish" %}</button>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <aside class="right_content">
+          <div class="single_sidebar contact-info-card">
+            <h2><span>{% trans "Aloqa ma'lumotlari" %}</span></h2>
+            <ul class="contact-info">
+              <li><i class="fa fa-map-marker"></i> {% trans "Qarshi davlat universiteti" %}</li>
+              <li><i class="fa fa-phone"></i> +998 91 963 07 70</li>
+              <li><i class="fa fa-envelope"></i> boburjonabduganiyev83@gmail.com</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+{% endblock content %}

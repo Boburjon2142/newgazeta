@@ -1,0 +1,59 @@
+{% extends 'news/base.html' %}
+{% load static %}
+{% load hitcount_tags %}
+
+
+    {% block title %}{{ news.title }}{% endblock %}
+
+{% block content %}
+<article class="article container">
+  <h1 class="page-title">{{ news.title }}</h1>
+  <div class="meta-bar">
+    <span class="meta-chip"><i class="fa fa-calendar"></i> {{ news.publish_time }}</span>
+    <span class="meta-chip"><i class="fa fa-eye"></i> {% get_hit_count for news %}</span>
+    <span class="meta-chip"><i class="fa fa-comments"></i> {{ comment_count }}</span>
+  </div>
+  <div class="article-hero">
+    {% if news.image %}
+      <img src="{{ news.image.url }}" alt="{{ news.title }}">
+    {% else %}
+      <img src="{% static 'images/featured_img1.jpg' %}" alt="{{ news.title }}">
+    {% endif %}
+  </div>
+  <div class="article-body">
+    {{ news.body|linebreaks }}
+  </div>
+
+  {% if request.user.is_authenticated and request.user.is_superuser %}
+    <div class="card-footer text-center">
+      <a href="{% url 'news_update' news.slug %}" class="btn btn-info">Tahrirlash</a>
+      <a href="{% url 'news_delete' news.slug %}" class="btn btn-danger">O'chirish</a>
+    </div>
+  {% endif %}
+
+  <h2>Izohlar {{ comment_count }}</h2>
+  {% for comment in comments %}
+    <div class="comment-card">
+      <p class="comment-author"><strong>{{ comment.user }}</strong> · {{ comment.created_time }}</p>
+      <div class="comment-body">{{ comment.body|linebreaks }}</div>
+    </div>
+  {% endfor %}
+
+  {% if user.is_authenticated %}
+    <div>
+      <div class="comment-form card">
+        <h3>Izoh qoldirish</h3>
+        <form method="post">
+          {% csrf_token %}
+          {{ comment_form.as_p }}
+          <button type="submit" class="btn btn-primary">Yuborish</button>
+        </form>
+      </div>
+    </div>
+  {% else %}
+    <p class="text-muted">Izoh qoldirish uchun tizimga kiring.</p>
+    <p><a href="{% url 'login' %}">Kirish</a> | <a href="{% url 'user_register' %}">Ro'yxatdan o'tish</a></p>
+  {% endif %}
+
+</article>
+{% endblock content %}
