@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import News, Category, Advertisement
+from .models import News, Category, Advertisement, AboutPage, FeaturedCategory
 from django.db.models import Q, Count
 from .forms import CommentForm, ContactForm
 from .utils import notify_telegram
@@ -23,7 +23,8 @@ def news_list(request):
     }
     return render(request, "news/news_list.html", context)
 def news_detail(request, news):
-    news = get_object_or_404(News, slug=news, status=News.Status.Published)
+    news = (News.published.filter(slug=news).order_by('-publish_time').first()
+            or get_object_or_404(News, slug=news, status=News.Status.Published))
     context = {}
     #hitcount_logic
     hit_count = HitCount.objects.get_for_object(news)
@@ -92,11 +93,28 @@ class HomePageView(ListView):
         context = super().get_context_data(**kwargs)
         # categories and latest_news come from context processor
         context['news_list'] = News.published.all().order_by('-publish_time')[:5]
-        context['mahalliy_xabarlar'] = News.published.filter(category__name='Mahalliy').order_by("-publish_time")[:5]
-        context['xorij_xabarlari'] = News.published.filter(category__name='Xorij').order_by("-publish_time")[:5]
-        context['sport_xabarlari'] = News.published.filter(category__name='Sport').order_by("-publish_time")[:5]
-        context['texnologiya_xabarlari'] = News.published.filter(category__name='Texnologiya').order_by("-publish_time")[:6]
+        featured = list(FeaturedCategory.objects.filter(is_active=True).select_related('category').order_by('display_order')[:4])
+        # Fallback: if admin hasn't set 4, auto-pick latest categories
+        if len(featured) < 4:
+            extra = Category.objects.exclude(id__in=[f.category.id for f in featured]).order_by('id')[:(4-len(featured))]
+            featured.extend([FeaturedCategory(category=c, display_order=100+i) for i, c in enumerate(extra)])
+
+        # Map slots: 0->main, 1->left small, 2->right small, 3->sidebar
+        def posts_for(cat, limit=5):
+            return News.published.filter(category=cat).order_by("-publish_time")[:limit]
+
+        context['featured_slots'] = [f.category for f in featured]
+        context['mahalliy_xabarlar'] = posts_for(featured[0].category if featured else None, 5) if featured else News.published.none()
+        context['xorij_xabarlari'] = posts_for(featured[1].category if len(featured) > 1 else None, 5) if len(featured) > 1 else News.published.none()
+        context['sport_xabarlari'] = posts_for(featured[2].category if len(featured) > 2 else None, 5) if len(featured) > 2 else News.published.none()
+        context['texnologiya_xabarlari'] = posts_for(featured[3].category if len(featured) > 3 else None, 6) if len(featured) > 3 else News.published.none()
         context['ads'] = Advertisement.objects.filter(is_active=True).order_by('display_order', '-created_time')[:3]
+        context['featured_labels'] = {
+            'main': featured[0].category.name if featured else '',
+            'left': featured[1].category.name if len(featured) > 1 else '',
+            'right': featured[2].category.name if len(featured) > 2 else '',
+            'sidebar': featured[3].category.name if len(featured) > 3 else '',
+        }
         return context
 
 
@@ -141,7 +159,11 @@ class ContactPageView(TemplateView):
 
 
 def aboutPageView(request):
-    return render(request,'news/single_page.html')
+    about = AboutPage.objects.filter(is_active=True).order_by('-updated_time').first()
+    context = {
+        "about": about,
+    }
+    return render(request,'news/single_page.html', context)
 
 def custom_404(request):
     return render(request, 'news/404.html')

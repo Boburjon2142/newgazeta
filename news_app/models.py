@@ -75,6 +75,55 @@ class ViewCount(models.Model):
 
 
 
+class FooterBlock(models.Model):
+    class FooterKey(models.TextChoices):
+        FLICKR = "flickr", "Flickr Images"
+        ABOUT = "about", "About / Contact"
+
+    key = models.CharField(max_length=20, choices=FooterKey.choices, unique=True)
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    image = models.ImageField(upload_to='footer/', blank=True, null=True)
+    updated_time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Footer block"
+        verbose_name_plural = "Footer blocks"
+
+    def __str__(self):
+        return self.title
+
+
+class FeaturedCategory(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='featured_slots')
+    display_order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['display_order', 'id']
+        verbose_name = "Featured category"
+        verbose_name_plural = "Featured categories"
+
+    def __str__(self):
+        return f"{self.category.name} (order {self.display_order})"
+
+class AboutPage(models.Model):
+    title = models.CharField(max_length=200, default="Biz haqimizda")
+    subtitle = models.CharField(max_length=255, blank=True)
+    body = models.TextField(blank=True)
+    bullet_one = models.CharField(max_length=200, blank=True)
+    bullet_two = models.CharField(max_length=200, blank=True)
+    bullet_three = models.CharField(max_length=200, blank=True)
+    hero_image = models.ImageField(upload_to='about/', blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    updated_time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "About page"
+        verbose_name_plural = "About pages"
+
+    def __str__(self):
+        return self.title
 class Advertisement(models.Model):
     title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='ads/', blank=True, null=True)

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.template.defaultfilters import title
 
-from .models import News, Category, Contact, Comment, Advertisement
+from .models import News, Category, Contact, Comment, Advertisement, FooterBlock, AboutPage, FeaturedCategory
 # Register your models here.
 
 
@@ -41,3 +41,24 @@ class AdvertisementAdmin(admin.ModelAdmin):
     list_filter = ['is_active']
     search_fields = ['title']
     ordering = ['display_order', '-created_time']
+
+
+@admin.register(FooterBlock)
+class FooterBlockAdmin(admin.ModelAdmin):
+    list_display = ['key', 'title', 'updated_time']
+    search_fields = ['title', 'description']
+
+
+@admin.register(AboutPage)
+class AboutPageAdmin(admin.ModelAdmin):
+    list_display = ['title', 'is_active', 'updated_time']
+    list_filter = ['is_active']
+    search_fields = ['title', 'subtitle', 'body']
+
+
+@admin.register(FeaturedCategory)
+class FeaturedCategoryAdmin(admin.ModelAdmin):
+    list_display = ['category', 'display_order', 'is_active']
+    list_filter = ['is_active']
+    search_fields = ['category__name']
+    ordering = ['display_order']

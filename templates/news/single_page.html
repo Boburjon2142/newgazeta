@@ -13,19 +13,30 @@
   <div class="card about-hero">
     <div class="row" style="align-items:center;">
       <div class="col-sm-6">
-        <h3 style="margin-top:0;">{% trans "Ishonchli va tezkor yangiliklar" %}</h3>
-        <p class="text-muted">{% trans "Platformamiz mahalliy, xorij, sport va texnologiya yo'nalishlarida eng muhim xabarlarni sodda va qulay ko'rinishda taqdim etadi. Maqsadimiz — foydalanuvchilarga ishonchli manbalardan olingan, tekshirilgan kontentni yetkazish." %}</p>
+        <h3 style="margin-top:0;">{{ about.title|default:_("Ishonchli va tezkor yangiliklar") }}</h3>
+        <p class="text-muted">
+          {% if about and about.subtitle %}{{ about.subtitle }}{% else %}{% trans "Platformamiz mahalliy, xorij, sport va texnologiya yo'nalishlarida eng muhim xabarlarni sodda va qulay ko'rinishda taqdim etadi. Maqsadimiz — foydalanuvchilarga ishonchli manbalardan olingan, tekshirilgan kontentni yetkazish." %}{% endif %}
+        </p>
         <ul style="padding-left:18px; margin: 0;">
-          <li>{% trans "Tekshirilgan manbalar va faktlar" %}</li>
-          <li>{% trans "Quvvatli qidiruv va bo'limlar" %}</li>
-          <li>{% trans "Yengil, mobilga mos dizayn" %}</li>
+          {% if about and about.bullet_one %}<li>{{ about.bullet_one }}</li>{% endif %}
+          {% if about and about.bullet_two %}<li>{{ about.bullet_two }}</li>{% endif %}
+          {% if about and about.bullet_three %}<li>{{ about.bullet_three }}</li>{% endif %}
+          {% if not about %}
+            <li>{% trans "Tekshirilgan manbalar va faktlar" %}</li>
+            <li>{% trans "Quvvatli qidiruv va bo'limlar" %}</li>
+            <li>{% trans "Yengil, mobilga mos dizayn" %}</li>
+          {% endif %}
         </ul>
         <div style="margin-top: 10px;">
           <a href="{% url 'contact_page' %}" class="btn btn-primary">{% trans "Biz bilan aloqa" %}</a>
         </div>
       </div>
       <div class="col-sm-6">
-        <img src="{% static 'images/slider_img4.jpg' %}" alt="About" style="width:100%; border-radius:10px; box-shadow: var(--card-shadow); object-fit:cover;">
+        {% if about and about.hero_image %}
+          <img src="{{ about.hero_image.url }}" alt="{{ about.title }}" style="width:100%; border-radius:10px; box-shadow: var(--card-shadow); object-fit:cover;">
+        {% else %}
+          <img src="{% static 'images/slider_img4.jpg' %}" alt="About" style="width:100%; border-radius:10px; box-shadow: var(--card-shadow); object-fit:cover;">
+        {% endif %}
       </div>
     </div>
   </div>

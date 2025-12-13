@@ -18,6 +18,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 <!-- Custom overrides come last -->
 <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
+<link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
 
 <style>
   /* Lightweight spacing/polish for header buttons */
@@ -68,6 +69,9 @@
       <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="header_top">
           <div class="header_top_left">
+            <div class="logo_area">
+              <a href="{% url 'home_page' %}"><img src="{% static 'images/logo.png' %}" alt="Logo"></a>
+            </div>
             <ul class="top_nav">
               <li><a href="{% url 'home_page' %}">{% trans "Bosh sahifa" %}</a></li>
               <li><a href="{% url 'about_page' %}">{% trans "Biz haqimizda" %}</a></li>
@@ -133,13 +137,11 @@
       <div id="navbar" class="navbar-collapse collapse" style="display: flex; justify-content: space-between; align-items: center;">
         <div>
           <ul class="nav navbar-nav main_nav">
-          <li class="active"><a href="{% url 'home_page' %}"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
-              <li><a href="{% url 'local_news_page' %}">{% trans "Mahalliy" %}</a></li>
-          <li> <a href="{% url 'foreign_news_page' %}" >{% trans "Xorij" %}</a></li>
-          <li><a href="{% url 'technology_news_page' %}">{% trans "Texnologiya" %}</a></li>
-          <li><a href="{% url 'sport_news_page' %}">{% trans "Sport" %}</a></li>
-          <li><a href="{% url 'contact_page' %}">{% trans "Aloqa" %}</a></li>
-        </ul>
+            <li class="active"><a href="{% url 'home_page' %}"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
+            {% for cat in nav_categories %}
+              <li><a href="{% url 'search_results' %}?q={{ cat }}">{{ cat }}</a></li>
+            {% endfor %}
+          </ul>
         </div>
         <div style="margin-right: 16px;">
             <form method="get" action="{% url 'search_results' %}" class="navbar-form navbar-right" role="search" aria-label="Sayt bo'ylab qidirish">
@@ -196,7 +198,10 @@
       <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-4">
           <div class="footer_widget wow fadeInLeftBig">
-            <h2>Flickr Images</h2>
+            <h2>{{ footer_blocks.flickr.title|default:"Flickr Images" }}</h2>
+            {% if footer_blocks.flickr.description %}
+              <p>{{ footer_blocks.flickr.description }}</p>
+            {% endif %}
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
@@ -211,11 +216,15 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
           <div class="footer_widget wow fadeInRightBig">
-            <h2>{% trans "Men bilan aloqa" %}</h2>
-            <p> Abdug'aniyev Boburjon Akramjon o'g'li (Qarshi davlat universiteti inkubatsiya markazi)ga aloqador barcha yangiliklarni kuzatib boring.</p>
-            <address>
-            Qarshi davlat universiteti . Phone: +998 91 963 07 70 Email: boburjonabduganiyev83@gmail.com
-            </address>
+            <h2>{{ footer_blocks.about.title|default:_("Men bilan aloqa") }}</h2>
+            {% if footer_blocks.about.description %}
+              <p>{{ footer_blocks.about.description }}</p>
+            {% else %}
+              <p> Abdug'aniyev Boburjon Akramjon o'g'li (Qarshi davlat universiteti inkubatsiya markazi)ga aloqador barcha yangiliklarni kuzatib boring.</p>
+              <address>
+              Qarshi davlat universiteti . Phone: +998 91 963 07 70 Email: boburjonabduganiyev83@gmail.com
+              </address>
+            {% endif %}
           </div>
         </div>
       </div>

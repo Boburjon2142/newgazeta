@@ -1,27 +1,48 @@
 {% extends 'news/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block title %} Yangilik qo'shish {% endblock %}
 
 {% block content %}
-<h2 class="text-center"> Yangilik qo'shish </h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary ml-2"> Yangilik qo'shish </button>
-</form>
+<section class="container create-container">
+  <div class="section-header">
+    <h2 class="section-title">{% trans "Yangilik qo'shish" %}</h2>
+  </div>
+
+  <div class="form-card card">
+    <form method="post" enctype="multipart/form-data" class="create-form">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}<small class="text-muted">{{ field.help_text }}</small>{% endif %}
+            {% for error in field.errors %}
+              <div class="text-danger" style="font-size:12px;">{{ error }}</div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+        <div class="text-right">
+          <button type="submit" class="btn btn-primary btn-lg">{% trans "Yangilik qo'shish" %}</button>
+        </div>
+    </form>
+  </div>
+</section>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     let titleInput = document.getElementById("id_title");
     let slugInput = document.getElementById("id_slug");
 
-    titleInput.addEventListener("input", function() {
-        let slug = titleInput.value.toLowerCase()
-            .replace(/ /g, '-')        // bo'sh joylarni "-" ga almashtiradi
-            .replace(/[^\w-]+/g, '');  // belgilarni olib tashlaydi
-        slugInput.value = slug;
-    });
+    if (titleInput && slugInput) {
+      titleInput.addEventListener("input", function() {
+          let slug = titleInput.value.toLowerCase()
+              .replace(/ /g, '-')        // bo'sh joylarni "-" ga almashtiradi
+              .replace(/[^\w-]+/g, '');  // belgilarni olib tashlaydi
+          slugInput.value = slug;
+      });
+    }
 });
 </script>
 
