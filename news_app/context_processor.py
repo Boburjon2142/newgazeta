@@ -6,12 +6,14 @@ def latest_news(request):
     categories = Category.objects.all()
     footer_blocks = {fb.key: fb for fb in FooterBlock.objects.all()}
     desired_order = ["Jamiyat", "Jarayon", "Faoliyat", "Iqtisodiyot", "Tibbiyot", "Turizm", "Oila", "Biznes"]
-    name_to_cat = {c.name: c for c in categories}
-    nav_categories = [name_to_cat[n].name for n in desired_order if n in name_to_cat]
+    # Map by canonical (Latin) name for ordering, but return category objects so name is translated
+    name_to_cat = {getattr(c, "name_uz", c.name): c for c in categories}
+    nav_categories = [name_to_cat[n] for n in desired_order if n in name_to_cat]
     # append any other categories not in desired list
     for c in categories:
-        if c.name not in desired_order:
-            nav_categories.append(c.name)
+        base_name = getattr(c, "name_uz", c.name)
+        if base_name not in desired_order:
+            nav_categories.append(c)
 
     context = {
         'latest_news': latest_news,

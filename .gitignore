@@ -6,14 +6,19 @@ __pycache__/
 *.so
 *.db
 db.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
 *.sqlite3
 *.log
+.coverage
+.coverage.*
 
 # Virtual envs
 venv/
 .venv/
 env/
 .env
+.env.*
 
 # Django static build / translations
 staticfiles/

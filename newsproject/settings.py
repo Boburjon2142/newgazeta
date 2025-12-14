@@ -137,12 +137,12 @@ USE_TZ = True
 
 from django.utils.translation import gettext_lazy as _
 LANGUAGES = [
-    ('uz', _('Uzbek')),
-    ('en', _('English')),
-    ('ru', _('Russian')),
+    ('uz', "O'zbek (Lotin)"),
+    ('uz-cyrl', "Ўзбекча (Кирилл)"),
 ]
 
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'uz'
+MODELTRANSLATION_LANGUAGES = ('uz', 'uz-cyrl')
 
 # Use correct Django setting name and path format
 LOCALE_PATHS = [BASE_DIR / 'locale']
