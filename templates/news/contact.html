@@ -42,9 +42,15 @@
           <div class="single_sidebar contact-info-card">
             <h2><span>{% trans "Aloqa ma'lumotlari" %}</span></h2>
             <ul class="contact-info">
-              <li><i class="fa fa-map-marker"></i> {% trans "Qarshi davlat universiteti" %}</li>
-              <li><i class="fa fa-phone"></i> +998 91 963 07 70</li>
-              <li><i class="fa fa-envelope"></i> boburjonabduganiyev83@gmail.com</li>
+              {% if contact_info %}
+                {% if contact_info.address %}<li><i class="fa fa-map-marker"></i> {{ contact_info.address }}</li>{% endif %}
+                {% if contact_info.phone %}<li><i class="fa fa-phone"></i> {{ contact_info.phone }}</li>{% endif %}
+                {% if contact_info.email %}<li><i class="fa fa-envelope"></i> {{ contact_info.email }}</li>{% endif %}
+              {% else %}
+                <li><i class="fa fa-map-marker"></i> {% trans "Qarshi davlat universiteti" %}</li>
+                <li><i class="fa fa-phone"></i> +998 91 963 07 70</li>
+                <li><i class="fa fa-envelope"></i> boburjonabduganiyev83@gmail.com</li>
+              {% endif %}
             </ul>
           </div>
         </aside>

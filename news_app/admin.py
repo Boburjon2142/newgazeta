@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.template.defaultfilters import title
 
-from .models import News, Category, Contact, Comment, Advertisement, FooterBlock, AboutPage, FeaturedCategory
+from .models import News, Category, Contact, Comment, Advertisement, FooterBlock, AboutPage, FeaturedCategory, ContactInfo
 # Register your models here.
 
 
@@ -62,3 +62,9 @@ class FeaturedCategoryAdmin(admin.ModelAdmin):
     list_filter = ['is_active']
     search_fields = ['category__name']
     ordering = ['display_order']
+
+
+@admin.register(ContactInfo)
+class ContactInfoAdmin(admin.ModelAdmin):
+    list_display = ['title', 'address', 'phone', 'email', 'updated_time']
+    search_fields = ['title', 'address', 'phone', 'email']

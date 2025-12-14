@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import News, Category, Advertisement, AboutPage, FeaturedCategory
+from .models import News, Category, Advertisement, AboutPage, FeaturedCategory, ContactInfo
 from django.db.models import Q, Count
 from .forms import CommentForm, ContactForm
 from .utils import notify_telegram
@@ -132,13 +132,16 @@ class ContactPageView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         form = ContactForm()
+        contact_info = ContactInfo.objects.first()
         context = {
-            'form':form
+            'form':form,
+            'contact_info': contact_info
         }
         return render(request, 'news/contact.html', context)
 
     def post(self, request, *args, **kwargs):
         form = ContactForm(request.POST)
+        contact_info = ContactInfo.objects.first()
         if request.method == 'POST' and form.is_valid():
             obj = form.save()
             # Send to Telegram (best-effort; ignores errors if not configured)
@@ -150,7 +153,8 @@ class ContactPageView(TemplateView):
                 pass
             return HttpResponse("<h2>Biz bilan bog'langaningiz uchun tashakkur!</h2>")
         context = {
-                "form":form
+                "form":form,
+                "contact_info": contact_info
             }
 
         return render(request, 'news/contact.html', context)

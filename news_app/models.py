@@ -56,6 +56,20 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.email
+
+class ContactInfo(models.Model):
+    title = models.CharField(max_length=200, default="Aloqa ma'lumotlari")
+    address = models.CharField(max_length=255, blank=True)
+    phone = models.CharField(max_length=50, blank=True)
+    email = models.EmailField(blank=True)
+    updated_time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Contact info"
+        verbose_name_plural = "Contact info"
+
+    def __str__(self):
+        return self.title or "Aloqa ma'lumotlari"
     
 class Comment(models.Model):
     news = models.ForeignKey(News, on_delete=models.CASCADE, related_name='comments')
