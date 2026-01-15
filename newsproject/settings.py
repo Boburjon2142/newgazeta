@@ -29,8 +29,10 @@ SECRET_KEY = 'django-insecure-5e%^i=8t5nu#ntfnl8@0&!%-a*4cn)w(e1bv1b20qbe!ud^i2a
 DEBUG = os.getenv("DJANGO_DEBUG", "False").lower() == "true"
 
 # Allowlist for host headers (set env DJANGO_ALLOWED_HOSTS to comma-separated list)
-env_hosts = os.getenv("DJANGO_ALLOWED_HOSTS", "")
-ALLOWED_HOSTS = [h.strip() for h in env_hosts.split(",") if h.strip()]
+ALLOWED_HOSTS = [
+    'insonmanfaatigzuz.uz',
+    'www.insonmanfaatigzuz.uz',
+]
 
 
 # Application definition
@@ -58,7 +60,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+WHITENOISE_MAX_AGE = 60 * 60 * 24 * 365  # 1 yil cache
+
 
 ROOT_URLCONF = 'newsproject.urls'
 
@@ -147,14 +155,14 @@ LOCALE_PATHS = [BASE_DIR / 'locale']
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 # Use absolute paths for shared hosting (override with env if needed).
-STATIC_ROOT = Path(os.getenv("DJANGO_STATIC_ROOT", BASE_DIR / 'staticfiles'))
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = Path(os.getenv("DJANGO_MEDIA_ROOT", BASE_DIR / 'media'))
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -174,5 +182,19 @@ SESSION_COOKIE_SECURE = os.getenv("DJANGO_SECURE_COOKIES", "False").lower() == "
 CSRF_COOKIE_SECURE = SESSION_COOKIE_SECURE
 SECURE_SSL_REDIRECT = os.getenv("DJANGO_SECURE_SSL_REDIRECT", "False").lower() == "true"
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://insonmanfaatigzuz.uz',
+    'https://www.insonmanfaatigzuz.uz',
+]
