@@ -1,8 +1,13 @@
 from django.contrib import admin
 from django.template.defaultfilters import title
 
-from .models import News, Category, Contact, Comment, Advertisement, FooterBlock, AboutPage, FeaturedCategory, ContactInfo
+from .models import News, Category, Contact, Comment, Advertisement, FooterBlock, AboutPage, FeaturedCategory, ContactInfo, NewsImage
 # Register your models here.
+
+
+class NewsImageInline(admin.TabularInline):
+    model = NewsImage
+    extra = 1
 
 
 @admin.register(News)
@@ -13,6 +18,7 @@ class NewsAdmin(admin.ModelAdmin):
     date_hierarchy = 'publish_time'
     search_fields = ['title', 'body']
     ordering = ['status', 'publish_time']
+    inlines = [NewsImageInline]
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

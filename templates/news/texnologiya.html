@@ -17,8 +17,8 @@
     <a class="category-item tech-item" href="{{ news.get_absolute_url }}">
       <div class="media wow fadeInDown">
         <div class="media-left">
-          {% if news.image %}
-            <img src="{{ news.image.url }}" alt="{{ news.title }}">
+          {% if news.primary_image %}
+            <img src="{{ news.primary_image.url }}" alt="{{ news.title }}">
           {% else %}
             <img src="{% static 'images/featured_img1.jpg' %}" alt="{{ news.title }}">
           {% endif %}

@@ -14,11 +14,30 @@
     <span class="meta-chip"><i class="fa fa-comments"></i> {{ comment_count }}</span>
   </div>
   <div class="article-hero">
-    {% if news.image %}
-      <img src="{{ news.image.url }}" alt="{{ news.title }}">
-    {% else %}
-      <img src="{% static 'images/featured_img1.jpg' %}" alt="{{ news.title }}">
-    {% endif %}
+    {% with extra_images=news.images.all %}
+      {% if news.image or extra_images|length %}
+        <div class="news-gallery-carousel">
+          {% if news.image %}
+            <div class="news-gallery-slide">
+              <img src="{{ news.image.url }}" alt="{{ news.title }}">
+            </div>
+          {% endif %}
+        {% for item in extra_images %}
+          <div class="news-gallery-slide">
+            {% if item.video %}
+              <video class="news-gallery-video" controls preload="metadata">
+                <source src="{{ item.video.url }}">
+              </video>
+            {% else %}
+              <img src="{{ item.image.url }}" alt="{{ news.title }}">
+            {% endif %}
+          </div>
+        {% endfor %}
+        </div>
+      {% else %}
+        <img src="{% static 'images/featured_img1.jpg' %}" alt="{{ news.title }}">
+      {% endif %}
+    {% endwith %}
   </div>
   <div class="article-body">
     {{ news.body|linebreaks }}

@@ -13,8 +13,8 @@
     <a class="category-item" href="{% url 'news_detail_page' news.slug %}">
       <div class="media">
         <div class="media-left">
-          {% if news.image %}
-            <img src="{{ news.image.url }}" alt="{{ news.title }}" />
+          {% if news.primary_image %}
+            <img src="{{ news.primary_image.url }}" alt="{{ news.title }}" />
           {% else %}
             <img src="{% static 'images/featured_img1.jpg' %}" alt="{{ news.title }}" />
           {% endif %}

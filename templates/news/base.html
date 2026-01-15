@@ -200,8 +200,8 @@
             {% for news in latest_news %}
             <li>
               <a href="#">
-                {% if news.image %}
-                  <img src="{{ news.image.url }}" alt="">{{ news.title }}
+                {% if news.primary_image %}
+                  <img src="{{ news.primary_image.url }}" alt="">{{ news.title }}
                 {% else %}
                   <img src="{% static 'images/featured_img1.jpg' %}" alt="">{{ news.title }}
                 {% endif %}
@@ -345,6 +345,22 @@
       arrows: false,
       autoplay: true,
       autoplaySpeed: 4000,
+      adaptiveHeight: true,
+      pauseOnHover: true,
+    });
+  });
+
+  // News detail gallery carousel
+  document.addEventListener('DOMContentLoaded', function () {
+    var gallery = document.querySelector('.news-gallery-carousel');
+    if (!gallery || !window.jQuery || !jQuery.fn.slick) return;
+    var slideCount = gallery.querySelectorAll('.news-gallery-slide').length;
+    if (slideCount < 2) return;
+    jQuery(gallery).slick({
+      dots: true,
+      arrows: true,
+      autoplay: true,
+      autoplaySpeed: 3500,
       adaptiveHeight: true,
       pauseOnHover: true,
     });

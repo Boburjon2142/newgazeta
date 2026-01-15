@@ -16,8 +16,8 @@
     <a class="category-item" href="{% url 'news_detail_page' yangilik.slug %}">
       <div class="media">
         <div class="media-left">
-          {% if yangilik.image %}
-            <img src="{{ yangilik.image.url }}" alt="{{ yangilik.title }}" />
+          {% if yangilik.primary_image %}
+            <img src="{{ yangilik.primary_image.url }}" alt="{{ yangilik.title }}" />
           {% else %}
             <img src="{% static 'images/featured_img1.jpg' %}" alt="{{ yangilik.title }}" />
           {% endif %}

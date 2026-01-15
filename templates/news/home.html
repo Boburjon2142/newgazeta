@@ -16,8 +16,8 @@
         {% for news in news_list %}
         <div class="single_iteam">
           <a href="{{ news.get_absolute_url }}">
-            {% if news.image %}
-              <img src="{{ news.image.url }}" alt="">
+            {% if news.primary_image %}
+              <img src="{{ news.primary_image.url }}" alt="">
             {% else %}
               <img src="{% static 'images/featured_img1.jpg' %}" alt="">
             {% endif %}
@@ -40,8 +40,8 @@
             <li>
               <div class="media">
                 <a href="{{ news.get_absolute_url }}" class="media-left">
-                  {% if news.image %}
-                    <img alt="" src="{{ news.image.url }}">
+                  {% if news.primary_image %}
+                    <img alt="" src="{{ news.primary_image.url }}">
                   {% else %}
                     <img alt="" src="{% static 'images/featured_img1.jpg' %}">
                   {% endif %}
@@ -74,8 +74,8 @@
               <li>
                 <figure class="bsbig_fig">
                   <a href="{{ mahalliy.get_absolute_url }}" class="featured_img">
-                    {% if mahalliy.image %}
-                      <img alt="" src="{{ mahalliy.image.url }}">
+                    {% if mahalliy.primary_image %}
+                      <img alt="" src="{{ mahalliy.primary_image.url }}">
                     {% else %}
                       <img alt="" src="{% static 'images/featured_img1.jpg' %}">
                     {% endif %}
@@ -96,8 +96,8 @@
               <li>
                 <div class="media wow fadeInDown">
                   <a href="{{ mahalliy.get_absolute_url }}" class="media-left">
-                    {% if mahalliy.image %}
-                      <img alt="" src="{{ mahalliy.image.url }}">
+                    {% if mahalliy.primary_image %}
+                      <img alt="" src="{{ mahalliy.primary_image.url }}">
                     {% else %}
                       <img alt="" src="{% static 'images/featured_img1.jpg' %}">
                     {% endif %}
@@ -124,8 +124,8 @@
                 <li>
                   <figure class="bsbig_fig">
                     <a href="{{ xorij.get_absolute_url }}" class="featured_img">
-                      {% if xorij.image %}
-                        <img alt="" src="{{ xorij.image.url }}">
+                      {% if xorij.primary_image %}
+                        <img alt="" src="{{ xorij.primary_image.url }}">
                       {% else %}
                         <img alt="" src="{% static 'images/featured_img1.jpg' %}">
                       {% endif %}
@@ -145,8 +145,8 @@
                 <li>
                   <div class="media wow fadeInDown">
                     <a href="{{ xorij.get_absolute_url }}" class="media-left">
-                      {% if xorij.image %}
-                        <img alt="" src="{{ xorij.image.url }}">
+                      {% if xorij.primary_image %}
+                        <img alt="" src="{{ xorij.primary_image.url }}">
                       {% else %}
                         <img alt="" src="{% static 'images/featured_img1.jpg' %}">
                       {% endif %}
@@ -172,8 +172,8 @@
                 <li>
                   <figure class="bsbig_fig wow fadeInDown">
                     <a href="{{ sport.get_absolute_url }}" class="featured_img">
-                      {% if sport.image %}
-                        <img alt="" src="{{ sport.image.url }}">
+                      {% if sport.primary_image %}
+                        <img alt="" src="{{ sport.primary_image.url }}">
                       {% else %}
                         <img alt="" src="{% static 'images/featured_img1.jpg' %}">
                       {% endif %}
@@ -193,8 +193,8 @@
                 <li>
                   <div class="media wow fadeInDown">
                     <a href="{{ sport.get_absolute_url }}" class="media-left">
-                      {% if sport.image %}
-                        <img alt="" src="{{ sport.image.url }}">
+                      {% if sport.primary_image %}
+                        <img alt="" src="{{ sport.primary_image.url }}">
                       {% else %}
                         <img alt="" src="{% static 'images/featured_img1.jpg' %}">
                       {% endif %}
@@ -260,8 +260,8 @@
                 <li>
                   <figure class="bsbig_fig wow fadeInDown">
                     <a href="{{ texnologiya.get_absolute_url }}" class="featured_img">
-                      {% if texnologiya.image %}
-                        <img alt="" src="{{ texnologiya.image.url }}">
+                      {% if texnologiya.primary_image %}
+                        <img alt="" src="{{ texnologiya.primary_image.url }}">
                       {% else %}
                         <img alt="" src="{% static 'images/featured_img1.jpg' %}">
                       {% endif %}
@@ -280,8 +280,8 @@
             <li>
               <div class="media wow fadeInDown">
                 <a href="{{ texnologiya.get_absolute_url }}" class="media-left">
-                  {% if texnologiya.image %}
-                    <img alt="" src="{{ texnologiya.image.url }}">
+                  {% if texnologiya.primary_image %}
+                    <img alt="" src="{{ texnologiya.primary_image.url }}">
                   {% else %}
                     <img alt="" src="{% static 'images/featured_img1.jpg' %}">
                   {% endif %}

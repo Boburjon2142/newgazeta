@@ -29,10 +29,16 @@ SECRET_KEY = 'django-insecure-5e%^i=8t5nu#ntfnl8@0&!%-a*4cn)w(e1bv1b20qbe!ud^i2a
 DEBUG = os.getenv("DJANGO_DEBUG", "False").lower() == "true"
 
 # Allowlist for host headers (set env DJANGO_ALLOWED_HOSTS to comma-separated list)
-ALLOWED_HOSTS = [
-    'insonmanfaatigzuz.uz',
-    'www.insonmanfaatigzuz.uz',
-]
+_allowed_hosts_env = os.getenv("DJANGO_ALLOWED_HOSTS")
+if _allowed_hosts_env:
+    ALLOWED_HOSTS = [h.strip() for h in _allowed_hosts_env.split(",") if h.strip()]
+else:
+    ALLOWED_HOSTS = [
+        'insonmanfaatigzuz.uz',
+        'www.insonmanfaatigzuz.uz',
+        '127.0.0.1',
+        'localhost',
+    ]
 
 
 # Application definition
@@ -183,10 +189,15 @@ CSRF_COOKIE_SECURE = SESSION_COOKIE_SECURE
 SECURE_SSL_REDIRECT = os.getenv("DJANGO_SECURE_SSL_REDIRECT", "False").lower() == "true"
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+if DEBUG:
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+else:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 

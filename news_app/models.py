@@ -47,6 +47,15 @@ class News(models.Model):
     def get_absolute_url(self):
         return reverse("news_detail_page", args=[self.slug])
 
+    @property
+    def primary_image(self):
+        if self.image:
+            return self.image
+        extra = getattr(self, "images", None)
+        if extra:
+            return extra.first().image if extra.exists() else None
+        return None
+
 
 
 class Contact(models.Model):
@@ -155,4 +164,17 @@ class Advertisement(models.Model):
     @property
     def has_image(self):
         return bool(self.image)
+
+
+class NewsImage(models.Model):
+    news = models.ForeignKey(News, on_delete=models.CASCADE, related_name="images")
+    image = models.ImageField(upload_to="news/images")
+    video = models.FileField(upload_to="news/videos", blank=True, null=True)
+    created_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["created_time", "id"]
+
+    def __str__(self):
+        return f"{self.news.title} image"
  
