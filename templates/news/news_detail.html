@@ -42,6 +42,9 @@
   <div class="article-body">
     {{ news.body|linebreaks }}
   </div>
+  {% if news.author %}
+    <div class="article-author">Muallif: {{ news.author }}</div>
+  {% endif %}
 
   {% if request.user.is_authenticated and request.user.is_superuser %}
     <div class="card-footer text-center">

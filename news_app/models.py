@@ -24,6 +24,7 @@ class News(models.Model):
     title = models.CharField(max_length=250)
     slug =  models.SlugField(max_length=250)
     body = models.TextField()
+    author = models.CharField(max_length=200, blank=True)
     image = models.ImageField(upload_to='news/images')
     category = models.ForeignKey(Category,
                                  on_delete=models.CASCADE
