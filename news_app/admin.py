@@ -1,5 +1,9 @@
 from django.contrib import admin
 from django.template.defaultfilters import title
+from modeltranslation.admin import TranslationAdmin
+
+# Ensure translation options are registered before admin classes load.
+from . import translation  # noqa: F401
 
 from .models import News, Category, Contact, Comment, Advertisement, FooterBlock, AboutPage, FeaturedCategory, ContactInfo, NewsImage
 # Register your models here.
@@ -11,7 +15,7 @@ class NewsImageInline(admin.TabularInline):
 
 
 @admin.register(News)
-class NewsAdmin(admin.ModelAdmin):
+class NewsAdmin(TranslationAdmin):
     list_display = ['title', 'slug', 'publish_time', 'status']
     list_filter = ['status', 'created_time', 'publish_time']
     prepopulated_fields = {"slug": ('title',)}
@@ -21,7 +25,7 @@ class NewsAdmin(admin.ModelAdmin):
     inlines = [NewsImageInline]
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(TranslationAdmin):
     list_display = ['id', 'name']
 
 admin.site.register(Contact)

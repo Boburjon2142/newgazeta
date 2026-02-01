@@ -40,7 +40,7 @@
     {% endwith %}
   </div>
   <div class="article-body">
-    {{ news.body|linebreaks }}
+    {{ news.body|safe|linebreaks }}
   </div>
   {% if news.author %}
     <div class="article-author">Muallif: {{ news.author }}</div>
@@ -56,7 +56,7 @@
   <h2>Izohlar {{ comment_count }}</h2>
   {% for comment in comments %}
     <div class="comment-card">
-      <p class="comment-author"><strong>{{ comment.user }}</strong> · {{ comment.created_time }}</p>
+      <p class="comment-author"><strong>{{ comment.user }}</strong> &middot; {{ comment.created_time }}</p>
       <div class="comment-body">{{ comment.body|linebreaks }}</div>
     </div>
   {% endfor %}

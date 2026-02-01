@@ -208,7 +208,12 @@ class SportNewsView(ListView):
     
 class NewsUpdateView(OnlyLoggedSuperUser, UpdateView):
     model = News
-    fields = ('title', 'author', 'body', 'image', 'category', 'status', )
+    fields = (
+        'title', 'title_uz', 'title_uz_cyrl',
+        'author', 'author_uz', 'author_uz_cyrl',
+        'body', 'body_uz', 'body_uz_cyrl',
+        'image', 'category', 'status',
+    )
     template_name = 'crud/news_edit.html'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
@@ -229,7 +234,13 @@ class NewsDeleteView(OnlyLoggedSuperUser, DeleteView):
 class NewsCreateView(OnlyLoggedSuperUser, CreateView):
     model = News
     template_name = 'crud/news_create.html'
-    fields = ('title', 'title_uz', 'author', 'slug', 'body', 'body_uz', 'image', 'category', 'status')
+    fields = (
+        'title', 'title_uz', 'title_uz_cyrl',
+        'author', 'author_uz', 'author_uz_cyrl',
+        'slug',
+        'body', 'body_uz', 'body_uz_cyrl',
+        'image', 'category', 'status',
+    )
     
  
 
