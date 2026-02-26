@@ -3,9 +3,9 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import News, Category, Advertisement, AboutPage, FeaturedCategory, ContactInfo
+from .models import News, Category, Advertisement, AboutPage, FeaturedCategory, ContactInfo, NewsImage
 from django.db.models import Q, Count
-from .forms import CommentForm, ContactForm
+from .forms import CommentForm, ContactForm, NewsCreateForm, NewsUpdateForm
 from .utils import notify_telegram
 from django.contrib.auth.decorators import login_required, user_passes_test
 from newsproject.custom_permissions import OnlyLoggedSuperUser
@@ -208,15 +208,17 @@ class SportNewsView(ListView):
     
 class NewsUpdateView(OnlyLoggedSuperUser, UpdateView):
     model = News
-    fields = (
-        'title', 'title_uz', 'title_uz_cyrl',
-        'author', 'author_uz', 'author_uz_cyrl',
-        'body', 'body_uz', 'body_uz_cyrl',
-        'image', 'category', 'status',
-    )
+    form_class = NewsUpdateForm
     template_name = 'crud/news_edit.html'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        video = form.cleaned_data.get("video")
+        if video:
+            NewsImage.objects.create(news=self.object, video=video)
+        return response
     
     
 # class NewsCreateView(CreateView):
@@ -234,13 +236,14 @@ class NewsDeleteView(OnlyLoggedSuperUser, DeleteView):
 class NewsCreateView(OnlyLoggedSuperUser, CreateView):
     model = News
     template_name = 'crud/news_create.html'
-    fields = (
-        'title', 'title_uz', 'title_uz_cyrl',
-        'author', 'author_uz', 'author_uz_cyrl',
-        'slug',
-        'body', 'body_uz', 'body_uz_cyrl',
-        'image', 'category', 'status',
-    )
+    form_class = NewsCreateForm
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        video = form.cleaned_data.get("video")
+        if video:
+            NewsImage.objects.create(news=self.object, video=video)
+        return response
     
  
 

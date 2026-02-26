@@ -169,7 +169,7 @@ class Advertisement(models.Model):
 
 class NewsImage(models.Model):
     news = models.ForeignKey(News, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to="news/images")
+    image = models.ImageField(upload_to="news/images", blank=True, null=True)
     video = models.FileField(upload_to="news/videos", blank=True, null=True)
     created_time = models.DateTimeField(auto_now_add=True)
 
