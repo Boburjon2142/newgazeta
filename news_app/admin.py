@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django import forms
 from django.template.defaultfilters import title
 from modeltranslation.admin import TranslationAdmin
 
@@ -8,9 +9,20 @@ from . import translation  # noqa: F401
 from .models import News, Category, Contact, Comment, Advertisement, FooterBlock, AboutPage, FeaturedCategory, ContactInfo, NewsImage
 # Register your models here.
 
+class NewsImageInlineForm(forms.ModelForm):
+    class Meta:
+        model = NewsImage
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["image"].required = False
+        self.fields["video"].required = False
+
 
 class NewsImageInline(admin.TabularInline):
     model = NewsImage
+    form = NewsImageInlineForm
     extra = 1
 
 
